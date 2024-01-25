@@ -70,6 +70,20 @@ export default function App() {
         <Text style={styles.textBotao}>Converter</Text>
       </TouchableOpacity>
 
+      <View style={styles.areaResultado}>
+        <Text style={styles.valorConvertido}>
+          3 BTC
+        </Text>
+
+        <Text style={{fontSize: 18, margin: 8, fontWeight: '500', color: '#000'}}>
+          corresponde a 
+        </Text>
+
+        <Text style={styles.valorConvertido}>
+          R$ 100,00
+        </Text>
+      </View>
+
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -122,5 +136,19 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     fontSize: 16
+  },
+  areaResultado: {
+    width: '90%',
+    backgroundColor: '#FFF',
+    marginTop: 34,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  valorConvertido: {
+    fontSize: 28,
+    color: '#000',
+    fontWeight: 'bold'
   }
 });
