@@ -8,8 +8,11 @@ export default function App() {
 
   const [loading, setLoading] = useState(true);
   const [moedas, setMoedas] = useState([]);
-
   const [moedaSelecionada, setMoedaSelecionada] = useState(null);
+  const [moedaBValor, setMoedaBValor] = useState("");
+
+  const [valorMoeda, setValorMoeda] = useState(null);
+  const [valorConvertido, setValorConvertido] = useState(0);
 
   useEffect(() => {
     async function loadMoedas(){
@@ -63,6 +66,8 @@ export default function App() {
           placeholder='Ex: 1.50'
           style={styles.input}
           keyboardType='numeric'
+          value={moedaBValor}
+          onChangeText={(valor) => setMoedaBValor(valor)}
         />
       </View>
 
@@ -70,7 +75,8 @@ export default function App() {
         <Text style={styles.textBotao}>Converter</Text>
       </TouchableOpacity>
 
-      <View style={styles.areaResultado}>
+      {valorConvertido !== 0 && (
+        <View style={styles.areaResultado}>
         <Text style={styles.valorConvertido}>
           3 BTC
         </Text>
@@ -83,6 +89,7 @@ export default function App() {
           R$ 100,00
         </Text>
       </View>
+      )}
 
       <StatusBar style="auto" />
     </SafeAreaView>
