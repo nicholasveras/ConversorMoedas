@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, ActivityIndicator, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { PickerItem } from './src/Picker';
 import {api} from './src/services/api'
 
@@ -38,6 +38,23 @@ export default function App() {
     loadMoedas();
   }, [])
 
+  async function converter(){
+    if(moedaBValor === 0 || moedaBValor === "" || moedaSelecionada === null){
+      return;
+    }
+
+    const response = await api.get(`/all/${moedaSelecionada}-BRL`)
+    console.log(response.data[moedaSelecionada].ask);
+
+    let resultado = (response.data[moedaSelecionada].ask * parseFloat(moedaBValor))
+
+    setValorConvertido(`${resultado.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`)
+    setValorMoeda(moedaBValor)
+
+    Keyboard.dismiss();
+
+  }
+
   if(loading){
     return(
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
@@ -71,14 +88,14 @@ export default function App() {
         />
       </View>
 
-      <TouchableOpacity style={styles.botaoArea}>
+      <TouchableOpacity style={styles.botaoArea} onPress={converter}>
         <Text style={styles.textBotao}>Converter</Text>
       </TouchableOpacity>
 
       {valorConvertido !== 0 && (
         <View style={styles.areaResultado}>
         <Text style={styles.valorConvertido}>
-          3 BTC
+          {valorMoeda} {moedaSelecionada}
         </Text>
 
         <Text style={{fontSize: 18, margin: 8, fontWeight: '500', color: '#000'}}>
@@ -86,7 +103,7 @@ export default function App() {
         </Text>
 
         <Text style={styles.valorConvertido}>
-          R$ 100,00
+          {valorConvertido}
         </Text>
       </View>
       )}
